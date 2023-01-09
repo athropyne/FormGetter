@@ -1,0 +1,1 @@
+{"_default": {"1": {"name": "Authorization", "email": "email", "password": "text"}, "2": {"name": "Registration", "email": "email", "birthday": "date", "password": "text", "confirm_password": "text"}, "3": {"name": "Order", "phone": "phone", "delivery_date": "date"}, "4": {"name": "Support", "theme": "text", "trouble_text": "text"}}}
