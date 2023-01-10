@@ -21,21 +21,22 @@ async def root():
 
 
 @app.post("/get_form")
-async def get_form(data: str = Body()):
+async def get_form(MULTI_PATTERN: bool = False, data: str = Body()):
+    print(MULTI_PATTERN)
     formatted_data = dict(urllib.parse.parse_qsl(data))  # преобразует данные в человеческий вид
     prepared_data = await Formatter.format(formatted_data, Validator)  # форматирует и валидирует входные данные
-    form_pattern_from_base = iter(DB)  # получает все документы БД в виде генератора ( спорный момент )
-    filtered_patterns = {}  # шаблоны похожие на запрошенную форму ( имеют лишние поля )
+    form_pattern_from_base = iter(DB)  # получает все документы БД в виде генератора (спорный момент)
+    filtered_patterns = {}  # шаблоны похожие на запрошенную форму (имеют лишние поля)
     for i in form_pattern_from_base:
         name = i.pop('name')  # вытаскиваем имя шаблона
         if i.items() == prepared_data.items():  # шаблон сошелся полностью
             return name
         if i.items() <= prepared_data.items():  # запрос сошелся с одним или несколькими шаблонами
-            filtered_patterns[name] = len(i)  # сохраяем имя шаблона и его размер
+            filtered_patterns[name] = len(i)  # сохраняем имя шаблона и его размер
     if len(filtered_patterns) == 0:  # если ни один шаблон не совпал с запросом
         return prepared_data
-    if config.ONE_PATTERN_ONLY:  # если multipattern отключен
-        max_weight = max(filtered_patterns.values())  # определяем размер самого большого из отфильрованных шаблонов
+    if not MULTI_PATTERN:  # если multi-pattern отключен
+        max_weight = max(filtered_patterns.values())  # определяем размер самого большого из отфильтрованных шаблонов
         patterns_with_max_weight = [name
                                     for name, count in filtered_patterns.items()
                                     if filtered_patterns[

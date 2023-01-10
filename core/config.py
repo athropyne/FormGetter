@@ -5,4 +5,4 @@ load_dotenv()
 HOST = os.getenv("HOST")
 PORT = int(os.getenv("PORT"))
 
-ONE_PATTERN_ONLY = False
+MULTI_PATTERN = False
