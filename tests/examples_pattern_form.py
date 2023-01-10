@@ -1,30 +1,32 @@
-from utils.walidator import FieldTypes
-
+DATE = "date"
+PHONE = "phone"
+EMAIL = "email"
+TEXT = "text"
 
 class ExamplesPatternForm:
     __auth_form = dict(
         name="Authorization",
-        email=FieldTypes.EMAIL,
-        password=FieldTypes.TEXT
+        email=EMAIL,
+        password=TEXT
     )
     __reg_form = dict(
         name="Registration",
-        email=FieldTypes.EMAIL,
-        birthday=FieldTypes.DATE,
-        password=FieldTypes.TEXT,
-        confirm_password=FieldTypes.TEXT
+        email=EMAIL,
+        birthday=DATE,
+        password=TEXT,
+        confirm_password=TEXT
     )
 
     __order_form = dict(
         name="Order",
-        phone=FieldTypes.PHONE,
-        delivery_date=FieldTypes.DATE
+        phone=PHONE,
+        delivery_date=DATE
     )
 
     __support_form = dict(
         name="Support",
-        theme=FieldTypes.TEXT,
-        trouble_text=FieldTypes.TEXT
+        theme=TEXT,
+        trouble_text=TEXT
     )
 
     @classmethod

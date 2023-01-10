@@ -8,7 +8,7 @@ from core import config
 from core.db import DB
 from routes.test import test_router
 from utils.formatter import Formatter
-from utils.walidator import Validator
+from utils.walidator import *
 
 app = FastAPI()
 
@@ -24,7 +24,12 @@ async def root():
 async def get_form(MULTI_PATTERN: bool = False, data: str = Body()):
     print(MULTI_PATTERN)
     formatted_data = dict(urllib.parse.parse_qsl(data))  # преобразует данные в человеческий вид
-    prepared_data = await Formatter.format(formatted_data, Validator)  # форматирует и валидирует входные данные
+    validators = [  # используемые валидаторы
+        DateValidator(),
+        EmailValidator(),
+        PhoneValidator()
+    ]
+    prepared_data = await Formatter.format(formatted_data, validators)  # форматирует и валидирует входные данные
     form_pattern_from_base = iter(DB)  # получает все документы БД в виде генератора (спорный момент)
     filtered_patterns = {}  # шаблоны похожие на запрошенную форму (имеют лишние поля)
     for i in form_pattern_from_base:
