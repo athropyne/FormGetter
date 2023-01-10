@@ -22,7 +22,6 @@ async def root():
 
 @app.post("/get_form")
 async def get_form(MULTI_PATTERN: bool = False, data: str = Body()):
-    print(MULTI_PATTERN)
     formatted_data = dict(urllib.parse.parse_qsl(data))  # преобразует данные в человеческий вид
     validators = [  # используемые валидаторы
         DateValidator(),
@@ -43,9 +42,9 @@ async def get_form(MULTI_PATTERN: bool = False, data: str = Body()):
     if not MULTI_PATTERN:  # если multi-pattern отключен
         max_weight = max(filtered_patterns.values())  # определяем размер самого большого из отфильтрованных шаблонов
         patterns_with_max_weight = [name
-                                    for name, count in filtered_patterns.items()
-                                    if filtered_patterns[
-                                        name] == max_weight]  # список всех шаблонов с максимальным размером
+                                    for name
+                                    in filtered_patterns.keys()
+                                    if filtered_patterns[name] == max_weight]  # список всех шаблонов с максимальным размером
         if len(patterns_with_max_weight) == 1:  # вернуть если такой шаблон один
             return patterns_with_max_weight[0]
         if len(patterns_with_max_weight) > 1:  # вернуть динамически сгенерированный шаблон (конфликт фильтрации)
