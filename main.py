@@ -22,16 +22,15 @@ async def root():
 
 @app.post("/get_form")
 async def get_form(MULTI_PATTERN: bool = False, data: str = Body()):
-    formatted_data = dict(urllib.parse.parse_qsl(data))  # преобразует данные в человеческий вид
     validators = [  # используемые валидаторы
         DateValidator(),
         EmailValidator(),
         PhoneValidator()
     ]
-    prepared_data = await Formatter.format(formatted_data, validators)  # форматирует и валидирует входные данные
-    form_pattern_from_base = iter(DB)  # получает все документы БД в виде генератора (спорный момент)
+    prepared_data = await Formatter.format(dict(urllib.parse.parse_qsl(data)), validators)  # форматирует и валидирует входные данные
+    all_pattern_from_base = iter(DB)  # получает все документы БД в виде генератора (спорный момент)
     filtered_patterns = {}  # шаблоны похожие на запрошенную форму (имеют лишние поля)
-    for i in form_pattern_from_base:
+    for i in all_pattern_from_base:
         name = i.pop('name')  # вытаскиваем имя шаблона
         if i.items() == prepared_data.items():  # шаблон сошелся полностью
             return name
