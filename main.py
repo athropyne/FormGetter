@@ -4,8 +4,8 @@ import uvicorn as uvicorn
 from fastapi import FastAPI, Body
 from starlette.responses import FileResponse
 
-from core import config
-from core.db import DB
+from core import config, DB
+
 from routes.test import test_router
 from utils.formatter import Formatter
 from utils.walidator import *

@@ -1,4 +1,4 @@
-from utils.walidator import *
+from utils.walidator import IValidator
 
 
 class Formatter:

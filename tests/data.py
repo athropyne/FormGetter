@@ -1,6 +1,3 @@
-
-
-
 class FakeData:
     EMAIL__ = "example.001@gmail.com"  # valid email
     V1_DATE__ = "06.10.1990"  # valid date format v1
@@ -43,6 +40,7 @@ class FakeData:
     similar_order_form = dict(
         phone=PHONE__,
         delivery_date=V2_DATE__,
+        fale_field=PHONE__,
     )
     similar_support_form = dict(
         theme=TEXT__,

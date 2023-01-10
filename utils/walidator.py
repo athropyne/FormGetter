@@ -1,7 +1,6 @@
 import datetime
 import re
 from abc import ABC, abstractmethod
-from enum import Enum
 
 
 class IValidator(ABC):
@@ -16,19 +15,14 @@ class DateValidator(IValidator):
 
     async def validate(self, value: str) -> bool:
         self.flag: bool = False
-        format_v2 = "%Y-%m-%d"
-        format_v1 = "%d.%m.%Y"
-        try:
-            datetime.datetime.strptime(value, format_v2)
-            self.flag = True
-        except ValueError:
-            self.flag = False
-        try:
-            datetime.datetime.strptime(value, format_v1)
-            self.flag = True
-        except ValueError:
-            self.flag = False
+        data_format = ["%d.%m.%Y", "%Y-%m-%d"]
 
+        for df in data_format:
+            try:
+                datetime.datetime.strptime(value, df)
+                self.flag = True
+            except ValueError:
+                continue
         return self.flag
 
 
@@ -46,4 +40,3 @@ class EmailValidator(IValidator):
         if email.match(value):
             return True
         return False
-

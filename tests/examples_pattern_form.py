@@ -3,6 +3,7 @@ PHONE = "phone"
 EMAIL = "email"
 TEXT = "text"
 
+
 class ExamplesPatternForm:
     __auth_form = dict(
         name="Authorization",
