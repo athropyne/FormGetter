@@ -20,14 +20,18 @@ async def root():
     return FileResponse("public/index.html")
 
 
+
+
+
 @app.post("/get_form")
 async def get_form(MULTI_PATTERN: bool = False, data: str = Body()):
     validators = [  # используемые валидаторы
         DateValidator(),
-        EmailValidator(),
-        PhoneValidator()
+        PhoneValidator(),
+        EmailValidator()
     ]
-    prepared_data = await Formatter.format(dict(urllib.parse.parse_qsl(data)), validators)  # форматирует и валидирует входные данные
+    prepared_data = await Formatter.format(dict(urllib.parse.parse_qsl(data)),
+                                           validators)  # форматирует и валидирует входные данные
     all_pattern_from_base = iter(DB)  # получает все документы БД в виде генератора (спорный момент)
     filtered_patterns = {}  # шаблоны похожие на запрошенную форму (имеют лишние поля)
     for i in all_pattern_from_base:
@@ -43,7 +47,8 @@ async def get_form(MULTI_PATTERN: bool = False, data: str = Body()):
         patterns_with_max_weight = [name
                                     for name
                                     in filtered_patterns.keys()
-                                    if filtered_patterns[name] == max_weight]  # список всех шаблонов с максимальным размером
+                                    if filtered_patterns[
+                                        name] == max_weight]  # список всех шаблонов с максимальным размером
         if len(patterns_with_max_weight) == 1:  # вернуть если такой шаблон один
             return patterns_with_max_weight[0]
         if len(patterns_with_max_weight) > 1:  # вернуть динамически сгенерированный шаблон (конфликт фильтрации)

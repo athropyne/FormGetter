@@ -1,10 +1,14 @@
-class FakeData:
-    EMAIL__ = "example.001@gmail.com"  # valid email
-    V1_DATE__ = "06.10.1990"  # valid date format v1
-    V2_DATE__ = "1990-10-06"  # valid date format v2
-    PHONE__ = "+7 903 016 06 15"  # valid phone
-    TEXT__ = "lorem ipsum"  # text or no valid field
+from random import Random
 
+random = Random()
+EMAIL__ = "example.001@gmail.com"  # valid email
+V1_DATE__ = "06.10.1990"  # valid date format v1
+V2_DATE__ = "1990-10-06"  # valid date format v2
+PHONE__ = "+7 903 016 06 15"  # valid phone
+TEXT__ = "lorem ipsum"  # text or no valid field
+
+
+class FakeData:
     valid_registration_form = dict(
         email=EMAIL__,
         birthday=V1_DATE__,
@@ -53,11 +57,12 @@ class FakeData:
         email=EMAIL__,
         password=TEXT__
     )  # return two form name (config.ONE_PATTERN_ONLY = True) or generated pattern (config.ONE_PATTERN_ONLY = False)
-    no_valid_form = dict(
-        fake_field1=EMAIL__,
-        fake_field2=TEXT__,
-        fake_field3=PHONE__
-    )  # return generated pattern
+    no_valid_form = {k: v
+                     for k, v
+                     in [
+                         (f"fake_field_{i}", random.choice([EMAIL__, PHONE__, V2_DATE__, V1_DATE__, TEXT__]))
+                         for i in range(10)
+                     ]}  # return generated pattern
     similar_multy = dict(
         email=EMAIL__,
         birthday=V1_DATE__,
